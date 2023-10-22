@@ -5,6 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Aspect
 @Component
 @Slf4j
+@Order(value=2)
 public class TimerAop {
 
     @Pointcut("@annotation(com.example.aop.config.Timer)")
@@ -20,7 +22,6 @@ public class TimerAop {
     @Around("enableTimer()")
     public Object measureTime(ProceedingJoinPoint jp) throws Throwable{
         long startTime = System.currentTimeMillis();
-        log.debug("Signature: {}, Args: {}", jp.getSignature(), jp.getArgs());
 
         Object result = jp.proceed();
 
